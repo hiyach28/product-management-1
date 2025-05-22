@@ -34,8 +34,10 @@ class Product(models.Model):
 
 
 class Order(models.Model):
+    STATUS = [('pending', 'pending'), ('shipped', 'shipped'), ('delivered', 'delivered')]
     customer_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True) #auto_nowadd
+    status = models.CharField(max_length=20, choices = STATUS, default= 'pending')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
