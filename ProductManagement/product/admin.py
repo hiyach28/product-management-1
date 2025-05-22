@@ -54,7 +54,7 @@ class OrderItemAdmin(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     exclude = ('vars_json',)
     inlines = [OrderItemAdmin]
-    list_display = ('customer_name','created_at', 'items_list',)
+    list_display = ('customer_name','created_at', 'items_list', 'status')
     def items_list(self, obj):
         item_string = []
         for i in obj.item.all():
