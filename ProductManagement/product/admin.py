@@ -1,12 +1,20 @@
 
 from django.contrib import admin
-from .models import Product, Order, OrderItem
+from .models import Product, Order, OrderItem, Category
 
 
 # @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'sku', 'price', )  # Optional: customize admin list view
-    # search_fields = ('id', )
+    list_display = ('id', 'name', 'sku', 'price', 'tags')  # Optional: customize admin list view
+    def tags(self, obj):
+        item_string = []
+        for i in obj.tag.all():
+            item_string.append(str(i))
+        return ",".join(item_string)
+    # def tag_list(self, obj):
+    #     return ", ".join([str(category) for category in obj.tag.all()])
+    search_fields = ('id','tag__category' )
+    
 # Register your models here.
 
 # @admin.register(Order)
@@ -67,14 +75,13 @@ class OrderItemStandaloneAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'items', 'quantity')
 
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('category',)
+
 # admin.site.register(OrderItem, Order, Product)
 admin.site.register(Product, ProductAdmin)
 # admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemStandaloneAdmin)
+admin.site.register(Category, CategoryAdmin)
 
-'''
-Username = 'hb'
-Email address: admin@admin.com
-Password: hbdev
-'''
